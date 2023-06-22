@@ -15,9 +15,7 @@ logging.basicConfig(
 
 # Конфигурационные параметры
 bot_token = os.getenv("BOT_TOKEN")
-api_base_url = (
-    "http://127.0.0.1:8000/api/notes/"
-)
+api_base_url = "http://127.0.0.1:8000/api/notes/"
 # Инициализация бота
 bot = telebot.TeleBot(bot_token)
 
@@ -32,7 +30,8 @@ def start_message(message: Message) -> None:
         "/create <title> <content> - создать новую заметку\n"
         "/update <note_id> <title> <content> - обновить существующую заметку\n"
         "/delete <note_id> - удалить заметку\n"
-        "/view <note_id> - просмотреть заметку",
+        "/view <note_id> - просмотреть заметку"
+        "Используй  '_' вместо пробелов в полях title i content",
     )
 
 
@@ -43,7 +42,8 @@ def create_note_handler(message: Message) -> None:
     if len(args) < 2:
         bot.send_message(
             message.chat.id,
-            "Недостаточно аргументов. Используйте: /create <title> <content>",
+            "Недостаточно аргументов. Используйте: /create <title> <content>"
+            "Убедись что  используешь '_' вместо пробелов",
         )
         return
     title = args[0]
@@ -57,7 +57,11 @@ def create_note_handler(message: Message) -> None:
         response.raise_for_status()
         bot.send_message(message.chat.id, "Заметка успешно создана")
     except requests.exceptions.RequestException as e:
-        bot.send_message(message.chat.id, "Ошибка при создании заметки")
+        bot.send_message(
+            message.chat.id,
+            "Ошибка при создании заметки"
+            "Убедись что  используешь '_' вместо пробелов",
+        )
         logging.error(f"Ошибка при создании заметки: {e}")
     except Exception as e:
         bot.send_message(message.chat.id, "Произошла ошибка")
@@ -144,7 +148,8 @@ def update_note_handler(message: Message) -> None:
     if len(args) < 3:
         bot.send_message(
             message.chat.id,
-            "Недостаточно аргументов. Используйте: /update <note_id> <title> <content>",
+            "Недостаточно аргументов. Используйте: /update <note_id> <title> <content>"
+            "Убедись что  используешь '_' вместо пробелов",
         )
         return
     note_id = args[0]
@@ -159,7 +164,11 @@ def update_note_handler(message: Message) -> None:
         response.raise_for_status()
         bot.send_message(message.chat.id, "Заметка успешно обновлена")
     except requests.exceptions.RequestException as e:
-        bot.send_message(message.chat.id, "Ошибка при обновлении заметки")
+        bot.send_message(
+            message.chat.id,
+            "Ошибка при обновлении заметки"
+            "Убедись что  используешь '_' вместо пробелов",
+        )
         logging.error(f"Ошибка при обновлении заметки: {e}")
     except Exception as e:
         bot.send_message(message.chat.id, "Произошла ошибка")
